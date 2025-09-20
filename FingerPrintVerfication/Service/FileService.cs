@@ -7,6 +7,11 @@ namespace Takeel.Infrastructure.Services;
 
 public class FileService : IFileService
 {
+    private static readonly string FingerprintDirectory = 
+        Environment.OSVersion.Platform == PlatformID.Win32NT 
+            ? @"C:\fingerprints" 
+            : "/app/fingerprints";
+
     public async Task<string> Upload(FileForm fileForm)
     {
         try
@@ -15,19 +20,24 @@ public class FileService : IFileService
             var extension = Path.GetExtension(fileForm.File.FileName).ToLowerInvariant();
             var fileName = $"{id}{extension}";
 
-            var attachmentsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Attachments");
-            if (!Directory.Exists(attachmentsDir))
-                Directory.CreateDirectory(attachmentsDir);
+            // Create the fingerprints directory if it doesn't exist
+            if (!Directory.Exists(FingerprintDirectory))
+                Directory.CreateDirectory(FingerprintDirectory);
 
-            var path = Path.Combine(attachmentsDir, fileName);
+            var fullPath = Path.Combine(FingerprintDirectory, fileName);
 
+            // Save the file to the specified location
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await fileForm.File.CopyToAsync(stream);
+            }
 
-            var filePath = Path.Combine("Attachments", fileName);
-            return filePath;
+            // Return the relative URL path for HTTP access
+            return $"/fingerprints/{fileName}";
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            throw new Exception($"Failed to save file: {ex.Message}", ex);
         }
     }
 

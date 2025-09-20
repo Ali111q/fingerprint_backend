@@ -29,6 +29,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Configure static files serving for fingerprints
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Environment.OSVersion.Platform == PlatformID.Win32NT 
+            ? @"C:\fingerprints" 
+            : "/app/fingerprints"),
+    RequestPath = "/fingerprints"
+});
+
 // Ensure database is created
 using (var scope = app.Services.CreateScope())
 {

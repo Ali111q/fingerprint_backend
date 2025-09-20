@@ -11,11 +11,11 @@ Content-Type: application/json
   "companyName": "Tech Corp",
   "jobTitle": "Software Engineer",
   "fingerPrints": [
-    "/uploads/fingerprints/john_thumb_left.jpg",
-    "/uploads/fingerprints/john_index_left.jpg", 
-    "/uploads/fingerprints/john_middle_left.jpg",
-    "/uploads/fingerprints/john_ring_left.jpg",
-    "/uploads/fingerprints/john_pinky_left.jpg"
+    "/fingerprints/john_thumb_left.jpg",
+    "/fingerprints/john_index_left.jpg", 
+    "/fingerprints/john_middle_left.jpg",
+    "/fingerprints/john_ring_left.jpg",
+    "/fingerprints/john_pinky_left.jpg"
   ]
 }
 
@@ -28,19 +28,19 @@ Content-Type: application/json
   "companyName": "Security Inc",
   "jobTitle": "Security Analyst",
   "fingerPrints": [
-    "/uploads/fingerprints/jane_thumb_left.jpg",
-    "/uploads/fingerprints/jane_index_left.jpg",
-    "/uploads/fingerprints/jane_middle_left.jpg", 
-    "/uploads/fingerprints/jane_ring_left.jpg",
-    "/uploads/fingerprints/jane_pinky_left.jpg"
+    "/fingerprints/jane_thumb_left.jpg",
+    "/fingerprints/jane_index_left.jpg",
+    "/fingerprints/jane_middle_left.jpg", 
+    "/fingerprints/jane_ring_left.jpg",
+    "/fingerprints/jane_pinky_left.jpg"
   ]
 }
 
 ### 3. Verify Person by Fingerprint Path
-GET {{FingerPrintVerfication_HostAddress}}/api/person/verify?fingerprintPath=/uploads/fingerprints/john_thumb_left.jpg
+GET {{FingerPrintVerfication_HostAddress}}/api/person/verify?fingerprintPath=/fingerprints/john_thumb_left.jpg
 
 ### 4. Verify Person with Non-existent Fingerprint
-GET {{FingerPrintVerfication_HostAddress}}/api/person/verify?fingerprintPath=/uploads/fingerprints/nonexistent.jpg
+GET {{FingerPrintVerfication_HostAddress}}/api/person/verify?fingerprintPath=/fingerprints/nonexistent.jpg
 
 ### 5. Get All Persons (Paginated)
 GET {{FingerPrintVerfication_HostAddress}}/api/person?page=1&pageSize=10
@@ -72,10 +72,16 @@ Content-Type: application/json
   "companyName": "Test Corp",
   "jobTitle": "Tester",
   "fingerPrints": [
-    "/uploads/fingerprints/test1.jpg",
-    "/uploads/fingerprints/test2.jpg"
+    "/fingerprints/test1.jpg",
+    "/fingerprints/test2.jpg"
   ]
 }
+
+### Direct Image Access Examples
+### 12. Access Fingerprint Images Directly via HTTP
+# Example URLs (replace filename with actual uploaded filename):
+# GET {{FingerPrintVerfication_HostAddress}}/fingerprints/abc123def456.jpg
+# GET {{FingerPrintVerfication_HostAddress}}/fingerprints/xyz789uvw012.png
 
 ### File Upload Tests (from existing FileController)
 ### 13. Upload Single File

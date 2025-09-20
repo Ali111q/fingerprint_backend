@@ -43,6 +43,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./FingerPrintVerfication/wwwroot/Attachments:/app/wwwroot/Attachments
+      - C:/fingerprints:/app/fingerprints
 
   # PgAdmin (Optional - for database management)
   pgadmin:
