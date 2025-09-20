@@ -1,4 +1,4 @@
-@FingerPrintVerfication_HostAddress = https://localhost:7060
+@FingerPrintVerfication_HostAddress = http://localhost:8080
 
 ### FingerPrint Verification API Tests
 

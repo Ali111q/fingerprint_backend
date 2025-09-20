@@ -13,7 +13,7 @@ static public class DependencyInjection
     {
         // Database
         services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         // Repositories
         services.AddScoped<IPersonRepository, PersonRepository>();

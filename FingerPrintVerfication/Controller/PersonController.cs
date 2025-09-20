@@ -263,7 +263,8 @@ public class PersonController : ControllerBase
                 Timestamp = DateTime.UtcNow,
                 AuditType = auditType,
                 IsSuccessful = isSuccessful,
-                Details = details
+                Details = details,
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.FingerPrintAudits.Add(audit);

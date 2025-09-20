@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8DIE7BKJ+cf0+V5e2Y69HWgb+wAMFvHgjQXtxisLv/Q=",
+  "Hash": "IIyJxWCW27hGsdVK8Mm1mOFeFBcCjnwdfVDn8CjnjAU=",
   "Source": "FingerPrintVerfication",
   "BasePath": "_content/FingerPrintVerfication",
   "Mode": "Default",
@@ -15,5 +15,25 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\lenovo\\RiderProjects\\Travil\\FingerPrintVerfication\\FingerPrintVerfication\\wwwroot\\Attachments\\.gitkeep",
+      "SourceId": "FingerPrintVerfication",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\lenovo\\RiderProjects\\Travil\\FingerPrintVerfication\\FingerPrintVerfication\\wwwroot\\",
+      "BasePath": "_content/FingerPrintVerfication",
+      "RelativePath": "Attachments/.gitkeep",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Attachments\\.gitkeep"
+    }
+  ]
 }

@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\lenovo\\RiderProjects\\Travil\\FingerPrintVerfication\\FingerPrintVerfication\\wwwroot\\Attachments\\.gitkeep",
+      "PackagePath": "staticwebassets\\Attachments\\.gitkeep"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.FingerPrintVerfication.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.FingerPrintVerfication.props",
+      "PackagePath": "build\\FingerPrintVerfication.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.FingerPrintVerfication.props",
+      "PackagePath": "buildMultiTargeting\\FingerPrintVerfication.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.FingerPrintVerfication.props",
+      "PackagePath": "buildTransitive\\FingerPrintVerfication.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

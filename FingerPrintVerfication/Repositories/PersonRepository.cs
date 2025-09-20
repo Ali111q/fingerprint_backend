@@ -39,7 +39,19 @@ public class PersonRepository : IPersonRepository
 
     public async Task<int> AddPersonAsync(AddPersonRequest request, CancellationToken cancellationToken)
     {
-        var person = new Person(request);
+        var person = new Person(request.FullName, request.CompanyName, request.JobTitle);
+        
+        // Add fingerprints
+        foreach (var fingerprintPath in request.FingerPrints)
+        {
+            person.FingerPrints.Add(new FingerPrint
+            {
+                Path = fingerprintPath,
+                PersonId = 0, // Will be set when person is saved
+                Person = person
+            });
+        }
+
         await _context.Persons.AddAsync(person);
         await _context.SaveChangesAsync(cancellationToken);
         return person.Id;
