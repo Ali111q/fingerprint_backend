@@ -1,0 +1,109 @@
+@FingerPrintVerfication_HostAddress = https://localhost:7060
+
+### FingerPrint Verification API Tests
+
+### 1. Add Person with 5 Fingerprints
+POST {{FingerPrintVerfication_HostAddress}}/api/person
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "companyName": "Tech Corp",
+  "jobTitle": "Software Engineer",
+  "fingerPrints": [
+    "/uploads/fingerprints/john_thumb_left.jpg",
+    "/uploads/fingerprints/john_index_left.jpg", 
+    "/uploads/fingerprints/john_middle_left.jpg",
+    "/uploads/fingerprints/john_ring_left.jpg",
+    "/uploads/fingerprints/john_pinky_left.jpg"
+  ]
+}
+
+### 2. Add Another Person
+POST {{FingerPrintVerfication_HostAddress}}/api/person
+Content-Type: application/json
+
+{
+  "fullName": "Jane Smith",
+  "companyName": "Security Inc",
+  "jobTitle": "Security Analyst",
+  "fingerPrints": [
+    "/uploads/fingerprints/jane_thumb_left.jpg",
+    "/uploads/fingerprints/jane_index_left.jpg",
+    "/uploads/fingerprints/jane_middle_left.jpg", 
+    "/uploads/fingerprints/jane_ring_left.jpg",
+    "/uploads/fingerprints/jane_pinky_left.jpg"
+  ]
+}
+
+### 3. Verify Person by Fingerprint Path
+GET {{FingerPrintVerfication_HostAddress}}/api/person/verify?fingerprintPath=/uploads/fingerprints/john_thumb_left.jpg
+
+### 4. Verify Person with Non-existent Fingerprint
+GET {{FingerPrintVerfication_HostAddress}}/api/person/verify?fingerprintPath=/uploads/fingerprints/nonexistent.jpg
+
+### 5. Get All Persons (Paginated)
+GET {{FingerPrintVerfication_HostAddress}}/api/person?page=1&pageSize=10
+
+### 6. Get Person by ID
+GET {{FingerPrintVerfication_HostAddress}}/api/person/1
+
+### 7. Get Audit Logs
+GET {{FingerPrintVerfication_HostAddress}}/api/person/audit-logs?page=1&pageSize=10
+
+### 8. Get Audit Logs - Filter by Successful Operations
+GET {{FingerPrintVerfication_HostAddress}}/api/person/audit-logs?page=1&pageSize=10&isSuccessful=true
+
+### 9. Get Audit Logs - Filter by Verification Operations
+GET {{FingerPrintVerfication_HostAddress}}/api/person/audit-logs?page=1&pageSize=10&auditType=2
+
+### 10. Get Audit Logs - Filter by User ID
+GET {{FingerPrintVerfication_HostAddress}}/api/person/audit-logs?page=1&pageSize=10&userId=1
+
+### 11. Delete Person
+DELETE {{FingerPrintVerfication_HostAddress}}/api/person/1
+
+### 12. Test Error Case - Add Person with Wrong Number of Fingerprints
+POST {{FingerPrintVerfication_HostAddress}}/api/person
+Content-Type: application/json
+
+{
+  "fullName": "Error Test",
+  "companyName": "Test Corp",
+  "jobTitle": "Tester",
+  "fingerPrints": [
+    "/uploads/fingerprints/test1.jpg",
+    "/uploads/fingerprints/test2.jpg"
+  ]
+}
+
+### File Upload Tests (from existing FileController)
+### 13. Upload Single File
+POST {{FingerPrintVerfication_HostAddress}}/api/file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="fingerprint.jpg"
+Content-Type: image/jpeg
+
+< ./fingerprint.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 14. Upload Multiple Files
+POST {{FingerPrintVerfication_HostAddress}}/api/file/multi
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="files"; filename="fingerprint1.jpg"
+Content-Type: image/jpeg
+
+< ./fingerprint1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="files"; filename="fingerprint2.jpg"
+Content-Type: image/jpeg
+
+< ./fingerprint2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 15. Download File
+GET {{FingerPrintVerfication_HostAddress}}/api/file/download/fingerprint.jpg

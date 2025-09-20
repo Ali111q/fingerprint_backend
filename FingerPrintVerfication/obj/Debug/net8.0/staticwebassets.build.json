@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "8DIE7BKJ+cf0+V5e2Y69HWgb+wAMFvHgjQXtxisLv/Q=",
+  "Source": "FingerPrintVerfication",
+  "BasePath": "_content/FingerPrintVerfication",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "FingerPrintVerfication\\wwwroot",
+      "Source": "FingerPrintVerfication",
+      "ContentRoot": "C:\\Users\\lenovo\\RiderProjects\\Travil\\FingerPrintVerfication\\FingerPrintVerfication\\wwwroot\\",
+      "BasePath": "_content/FingerPrintVerfication",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
