@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using FingerPrintVerfication.Extensions;
 using FingerPrintVerfication.Data;
+using FingerPrintVerfication.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,27 +14,26 @@ builder.Services.AddControllers().AddJsonOptions(x =>
         allowIntegerValues: true));
 });
 
-// Add CORS services
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("CorsPolicy", builder =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .WithExposedHeaders("*");
-    });
-    
-    // Add a named policy for more explicit control
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .WithExposedHeaders("*");
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
     });
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Production", builder =>
+    {
+        builder
+            .WithOrigins("https://takeeldep.gov.iq", "https://www.takeeldep.gov.iq")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -49,8 +49,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Enable CORS first, before HTTPS redirection
-app.UseCors();
+// Add custom CORS middleware FIRST - this will handle everything
+app.UseMiddleware<CorsMiddleware>();
+
+// Enable built-in CORS as backup
+
+if (app.Environment.IsProduction())
+{
+    app.UseCors("Production");
+}
+
+app.UseCors("CorsPolicy");
+;
 
 // Only redirect to HTTPS in production or when not in Docker
 if (!app.Environment.IsDevelopment() && Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") != "true")
@@ -59,8 +69,8 @@ if (!app.Environment.IsDevelopment() && Environment.GetEnvironmentVariable("DOTN
 }
 
 // Configure static files serving for fingerprints
-var fingerprintPath = Environment.OSVersion.Platform == PlatformID.Win32NT 
-    ? @"C:\fingerprints" 
+var fingerprintPath = Environment.OSVersion.Platform == PlatformID.Win32NT
+    ? @"C:\fingerprints"
     : "/app/fingerprints";
 
 // Ensure the fingerprints directory exists

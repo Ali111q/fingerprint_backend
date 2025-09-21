@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PostgreSQL Database
   postgres:
@@ -18,13 +16,18 @@ services:
     networks:
       - fingerprint-network
     restart: unless-stopped
-    healthcheck: *postgres-health
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fingerprint_user -d FingerPrintVerificationDb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   # ASP.NET Core Application
   fingerprint-app:
     build:
       context: .
-      dockerfile: FingerPrintVerfication/Dockerfile
+      dockerfile: Dockerfile
     container_name: fingerprint-app
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -39,7 +42,7 @@ services:
       - fingerprint-network
     restart: unless-stopped
     volumes:
-      - ./FingerPrintVerfication/wwwroot/Attachments:/app/wwwroot/Attachments
+      - ./wwwroot/Attachments:/app/wwwroot/Attachments
 
   # PgAdmin (Optional - for database management)
   pgadmin:
@@ -63,12 +66,3 @@ volumes:
 networks:
   fingerprint-network:
     driver: bridge
-
-# Health check for PostgreSQL
-x-postgres-health:
-  &postgres-health
-  test: ["CMD-SHELL", "pg_isready -U fingerprint_user -d FingerPrintVerificationDb"]
-  interval: 10s
-  timeout: 5s
-  retries: 5
-  start_period: 30s

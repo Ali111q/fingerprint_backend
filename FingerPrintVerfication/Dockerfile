@@ -7,15 +7,14 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FingerPrintVerfication/FingerPrintVerfication.csproj", "FingerPrintVerfication/"]
-RUN dotnet restore "FingerPrintVerfication/FingerPrintVerfication.csproj"
+COPY ["FingerPrintVerfication.csproj", "."]
+RUN dotnet restore "FingerPrintVerfication.csproj"
 COPY . .
-WORKDIR "/src/FingerPrintVerfication"
-RUN dotnet build "./FingerPrintVerfication.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "FingerPrintVerfication.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./FingerPrintVerfication.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "FingerPrintVerfication.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
