@@ -8,7 +8,6 @@ namespace Takeel.WebApi.Controllers;
 
 [Route("api/file")]
 [ApiController]
-[Authorize]
 public class FileController: ControllerBase{
     
     

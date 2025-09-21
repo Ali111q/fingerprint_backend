@@ -20,7 +20,17 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .WithExposedHeaders("*");
+    });
+    
+    // Add a named policy for more explicit control
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .WithExposedHeaders("*");
     });
 });
 
@@ -39,18 +49,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-// Enable CORS
+// Enable CORS first, before HTTPS redirection
 app.UseCors();
 
+// Only redirect to HTTPS in production or when not in Docker
+if (!app.Environment.IsDevelopment() && Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") != "true")
+{
+    app.UseHttpsRedirection();
+}
+
 // Configure static files serving for fingerprints
+var fingerprintPath = Environment.OSVersion.Platform == PlatformID.Win32NT 
+    ? @"C:\fingerprints" 
+    : "/app/fingerprints";
+
+// Ensure the fingerprints directory exists
+if (!Directory.Exists(fingerprintPath))
+{
+    Directory.CreateDirectory(fingerprintPath);
+}
+
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Environment.OSVersion.Platform == PlatformID.Win32NT 
-            ? @"C:\fingerprints" 
-            : "/app/fingerprints"),
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(fingerprintPath),
     RequestPath = "/fingerprints"
 });
 
